@@ -5,8 +5,10 @@
 
 #pragma once
 
+#include <string>
 #include "common.hpp"
 #include "sections.hpp"
+#include "unidecode/utf8_string_iterator.hpp"
 
 namespace unidecode {
 
@@ -41,11 +43,11 @@ namespace unidecode {
 
     }
 
-    string UnidecodeString(const string &str) {
-        unidecode::Utf8StringIterator begin = str.c_str();
-        unidecode::Utf8StringIterator end = str.c_str() + str.length();
-        string output;
-        unidecode::Unidecode(begin, end, std::back_inserter(output));
+    std::string UnidecodeString(const std::string &str) {
+        unidecode::Utf8StringIterator _begin = str.c_str();
+        unidecode::Utf8StringIterator _end = str.c_str() + str.length();
+        std::string output;
+        unidecode::Unidecode(_begin, _end, std::back_inserter(output));
         return output;
     }
 
