@@ -24,10 +24,11 @@ namespace unidecode {
 
                 uint32_t section = codepoint >> 8;
                 uint32_t position = codepoint & 0xff; // only ast two hex digits
-                // TODO: assert section < then xyz
+                if (section >= 256 || position >= 256)
+                    continue;
 
                 auto table = kUnidecodeData[section];
-                if (table != nullptr) {  // TODO: check if position < table size
+                if (table != nullptr) {
                     const char* symbol = table[position];
                     while (*symbol != 0) {
                         *out_it = *symbol;
@@ -38,6 +39,14 @@ namespace unidecode {
             }
         }
 
+    }
+
+    string UnidecodeString(const string &str) {
+        unidecode::Utf8StringIterator begin = str.c_str();
+        unidecode::Utf8StringIterator end = str.c_str() + str.length();
+        string output;
+        unidecode::Unidecode(begin, end, std::back_inserter(output));
+        return output;
     }
 
 }
